@@ -48,3 +48,19 @@ class Decoder(nn.Module):
         z = torch.sigmoid(self.deconv3(z))
         return z
 
+class VAE(nn.Module):
+    def __init__(self, input_channels, latent_dim):
+        super(VAE, self).__init__()
+        self.encoder = Encoder(input_channels, latent_dim)
+        self.decoder = Decoder(latent_dim)
+
+    def reparameterize(self, mean, logvar):
+        std = torch.exp(0.5 * logvar)
+        eps = torch.randn_like(std)
+        return mean + eps * std
+
+    def forward(self, x):
+        mean, logvar = self.encoder(x)
+        z = self.reparameterize(mean, logvar)
+        x_reconstructed = self.decoder(z)
+        return x_reconstructed, mean, logvar
