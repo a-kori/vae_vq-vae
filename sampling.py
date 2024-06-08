@@ -31,5 +31,3 @@ def sample(model, num_samples=100, grid_size=(10, 10), img_size=(28, 28)):
     plt.tight_layout()
     plt.savefig('generated_grid.png')
     plt.show()
-
-
