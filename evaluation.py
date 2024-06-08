@@ -1,6 +1,6 @@
 import torch
 
-def evaluate(model, test_loader, loss_fun, device):
+def evaluate(model, test_loader, loss_fun, device, mu, logvar):
     """
     Parameters:
     -----------
@@ -21,7 +21,7 @@ def evaluate(model, test_loader, loss_fun, device):
             # Move images to the appropriate device
             images = images.to(device)
             output = model(images)
-            loss = loss_fun(output, labels)
+            loss = loss_fun(output, labels, mu, logvar)
             total_loss += loss.item()
 
     return total_loss / len(test_loader)
