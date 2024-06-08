@@ -1,5 +1,6 @@
 import torch
 
+
 def evaluate(model, test_loader, loss_fun, device):
     """
     Parameters:

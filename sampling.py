@@ -1,7 +1,8 @@
 import torch
 import matplotlib.pyplot as plt
+import numpy as np
 
-def sample(model, num_samples=100, grid_size=(10, 10), img_size=(28, 28)):
+def sample(model,latent_dim, device, num_samples=100, grid_size=(10, 10)):
     """
     Parameters:
     -----------
@@ -16,18 +17,22 @@ def sample(model, num_samples=100, grid_size=(10, 10), img_size=(28, 28)):
 
     with torch.no_grad():
         for _ in range(num_samples):
-            # Generate random noise
-            noise = torch.randn(1, *img_size).to(next(model.parameters()).device)
+            z = torch.randn(num_samples, latent_dim).to(device)
             # Generate image from noise
-            generated_img = model(noise).cpu().numpy().squeeze()
+            generated_img = model.decoder(z)
             generated_images.append(generated_img)
 
-    fig, axes = plt.subplots(*grid_size, figsize=(10, 10))
-
-    for ax, img in zip(axes.flatten(), generated_images):
-        ax.imshow(img, cmap='gray')
-        ax.axis('off')
+    fig, axes = plt.subplots(grid_size, grid_size, figsize=(grid_size, grid_size))
+    idx = 0
+    for i in range(grid_size):
+        for j in range(grid_size):
+            if idx >= num_samples:
+                break
+            image = generated_images[idx].permute(1, 2, 0).numpy()
+            axes[i, j].imshow(image)
+            axes[i, j].axis('off')
+            idx += 1
 
     plt.tight_layout()
-    plt.savefig('generated_grid.png')
+    plt.savefig('images/generated_grid.png')
     plt.show()
