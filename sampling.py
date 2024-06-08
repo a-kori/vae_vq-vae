@@ -1,38 +1,33 @@
-import torch
+import os
+import torch, numpy as np
 import matplotlib.pyplot as plt
-import numpy as np
+from torchvision.utils import save_image, make_grid
 
-def sample(model,latent_dim, device, num_samples=100, grid_size=(10, 10)):
+def sample(model, epoch, device, latent_dim, num_samples, grid_size=10, save_path='./results'):
     """
+    Generates images from the VAE model and saves them in a grid.
+
     Parameters:
-    -----------
-    model : The trained nn model used for generating images.
-    num_samples : The number of images to generate.
-    grid_size : The dimensions of the grid.
-    img_size : The size of each generated image.
+    - model : The VAE model to generate images from.
+    - epoch : Current epoch number.
+    - device : The device to run the model on.
+    - latent_dim: Dimensionality of latent space.
+    - num_samples : Number of images to generate, must be below 100.
+    - grid_size : Dimensions of the grid to arrange the images.
+    - save_path : Path to save the generated image grid.
     """
 
     model.eval()
-    generated_images = []
-
+    os.makedirs(save_path, exist_ok=True)
     with torch.no_grad():
-        for _ in range(num_samples):
-            z = torch.randn(num_samples, latent_dim).to(device)
-            # Generate image from noise
-            generated_img = model.decoder(z)
-            generated_images.append(generated_img)
-
-    fig, axes = plt.subplots(grid_size, grid_size, figsize=(grid_size, grid_size))
-    idx = 0
-    for i in range(grid_size):
-        for j in range(grid_size):
-            if idx >= num_samples:
-                break
-            image = generated_images[idx].permute(1, 2, 0).numpy()
-            axes[i, j].imshow(image)
-            axes[i, j].axis('off')
-            idx += 1
-
-    plt.tight_layout()
-    plt.savefig('images/generated_grid.png')
+        z = torch.randn(num_samples, latent_dim).to(device)
+        generated_images = model.decoder(z).cpu()
+        save_image(generated_images, f'{save_path}/epoch_{epoch+1}.png', nrow=grid_size, normalize=True)
+    
+    grid = make_grid(generated_images, nrow=grid_size, normalize=True)
+    np_img = grid.numpy()
+    plt.figure(figsize=(10, 10))
+    plt.imshow(np.transpose(np_img, (1, 2, 0)))
+    plt.title(f'Epoch {epoch+1}')
+    plt.axis('off')
     plt.show()
