@@ -3,11 +3,14 @@ import torch
 
 def evaluate(model, test_loader, loss_fun, device):
     """
+    Evaluates the models using the testing dataset and calculates its mean loss.
+
     Parameters:
-    -----------
-    model : The nn model to be evaluated.
-    test_loader : DataLoader providing the test dataset.
-    loss_fun : The loss function used to compute the loss.
+    - model : The nn model to be evaluated.
+    - test_loader : DataLoader providing the test dataset.
+    - loss_fun : The loss function used to compute the loss.
+    - device: The device to run the model on.
+    
     Returns the mean testing loss.
     """
 
