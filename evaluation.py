@@ -1,6 +1,6 @@
 import torch
 
-def evaluate(model, test_loader, loss_fun, device, mu, logvar):
+def evaluate(model, test_loader, loss_fun, device):
     """
     Parameters:
     -----------
@@ -17,11 +17,11 @@ def evaluate(model, test_loader, loss_fun, device, mu, logvar):
         # Switch to evaluation mode.
         model.eval()
         # Iterate over the entire test dataset.
-        for images, labels in test_loader:
+        for images, _ in test_loader:
             # Move images to the appropriate device
             images = images.to(device)
-            output = model(images)
-            loss = loss_fun(output, labels, mu, logvar)
+            recon_batch, mu, logvar = model(images)
+            loss = loss_fun(recon_batch, images, mu, logvar)
             total_loss += loss.item()
 
     return total_loss / len(test_loader)
