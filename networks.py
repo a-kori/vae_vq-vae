@@ -74,10 +74,3 @@ class VAE(nn.Module):
         #print(z.shape)
         x_reconstructed = self.decoder(z)
         return x_reconstructed, mean, logvar
-
-def loss_function(reconstructed_x, x, mean, logvar):
-    #print(reconstructed_x.shape)
-    #print(x.shape)
-    BCE = F.binary_cross_entropy(reconstructed_x, x, reduction='sum')
-    KLD = -0.5 * torch.sum(1 + logvar - mean.pow(2) - logvar.exp())
-    return BCE + KLD
