@@ -24,7 +24,7 @@ def visualize_dataset(dataset, name):
 
 transform = transforms.Compose([
     transforms.ToTensor(),
-    transforms.Normalize((0.4, 0.4, 0.4), (0.4, 0.4, 0.4)),
+    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
 ])
 
 training_dataset = datasets.CIFAR10(root="data", train=True, download=True, transform=transform)
