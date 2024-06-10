@@ -1,55 +1,38 @@
-import os
-import torch, numpy as np
+import torch
 import matplotlib.pyplot as plt
-from torchvision.utils import save_image, make_grid
+import numpy as np
 
-def sample(model, epoch, device, latent_dim, num_samples, grid_size=10, save_path='./results'):
-    """
-    Generates images from the VAE model and saves them in a grid.
-
-    Parameters:
-    - model : The VAE model to generate images from.
-    - epoch : Current epoch number.
-    - device : The device to run the model on.
-    - latent_dim: Dimensionality of latent space.
-    - num_samples : Number of images to generate, must be below 100.
-    - grid_size : Dimensions of the grid to arrange the images.
-    - save_path : Path to save the generated image grid.
-    """
-
+def sample(model, test_loader, device, num_samples=5):
+    # Set the model to evaluation mode
     model.eval()
-    os.makedirs(save_path, exist_ok=True)
-    with torch.no_grad():
-        z = torch.randn(num_samples, latent_dim).to(device)
-        generated_images = model.decoder(z).cpu()
-        save_image(generated_images, f'{save_path}/epoch_{epoch+1}.png', nrow=grid_size, normalize=True)
     
-    grid = make_grid(generated_images, nrow=grid_size, normalize=True)
-    np_img = grid.numpy()
-    plt.figure(figsize=(10, 10))
-    plt.imshow(np.transpose(np_img, (1, 2, 0)))
-    plt.title(f'Epoch {epoch+1}')
-    plt.axis('off')
-    plt.show()
+    # Get a batch of test data
+    data, _ = next(iter(test_loader))
+    data = data.to(device)
+    
+    # Ensure random sampling
+    indices = np.random.choice(len(data), num_samples, replace=False)
+    sampled_data = data[indices]
 
-
-def plot_reconstruction(img, recons):
-    """
-    Plot the original and reconstructed images during training.
-    """
-    _, axes = plt.subplots(nrows=2, ncols=5, figsize=(10, 5))
-
-    for j in range(5):
-        # Original images - transposing to (height, width, channels)
-        original_image = img[j].detach().cpu().numpy().transpose(1, 2, 0)
-        axes[0][j].imshow(original_image)
-        axes[0][j].axis('off')
-
-    for j in range(5):
-        # Reconstructed images - transposing to (height, width, channels)
-        reconstructed_image = recons[j].detach().cpu().numpy().transpose(1, 2, 0)
-        axes[1][j].imshow(reconstructed_image)
-        axes[1][j].axis('off')
-
-    plt.tight_layout(pad=0.)
+    # Pass the data through the VAE
+    with torch.no_grad():
+        recon_batch, _, _ = model(sampled_data)
+    
+    # Plot the original and reconstructed images
+    _, axes = plt.subplots(nrows=2, ncols=num_samples, figsize=(num_samples * 2, 4))
+    
+    for i in range(num_samples):
+        # Original image
+        original_img = sampled_data[i].cpu().numpy().transpose(1, 2, 0)
+        axes[0, i].imshow(original_img.squeeze(), cmap='gray')
+        axes[0, i].set_title('Original')
+        axes[0, i].axis('off')
+        
+        # Reconstructed image
+        recon_img = recon_batch[i].cpu().numpy().transpose(1, 2, 0)
+        axes[1, i].imshow(recon_img.squeeze(), cmap='gray')
+        axes[1, i].set_title('Reconstructed')
+        axes[1, i].axis('off')
+    
+    plt.tight_layout()
     plt.show()

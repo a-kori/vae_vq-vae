@@ -40,14 +40,15 @@ def create_datasets(dataset_name, batch_size):
         ])
         train_dataset = datasets.MNIST(root="data", train=True, download=True, transform=transform)
         test_dataset = datasets.MNIST(root="data", train=False, download=True, transform=transform)
-        visualize_dataset(train_dataset, 'MNIST Training')
+        visualize_dataset(train_dataset, 'MNIST training')
+
     elif str.upper(dataset_name) == 'CIFAR10':
         transform = transforms.Compose([
             transforms.ToTensor(),
         ])
         train_dataset = datasets.CIFAR10(root="data", train=True, download=True, transform=transform)
         test_dataset = datasets.CIFAR10(root="data", train=False, download=True, transform=transform)
-        visualize_dataset(train_dataset, 'CIFAR10 Training')
+        visualize_dataset(train_dataset, 'CIFAR10 training')
     else:
         return None, None
     
