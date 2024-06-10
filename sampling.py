@@ -31,3 +31,25 @@ def sample(model, epoch, device, latent_dim, num_samples, grid_size=10, save_pat
     plt.title(f'Epoch {epoch+1}')
     plt.axis('off')
     plt.show()
+
+
+def plot_reconstruction(img, recons):
+    """
+    Plot the original and reconstructed images during training.
+    """
+    _, axes = plt.subplots(nrows=2, ncols=5, figsize=(10, 5))
+
+    for j in range(5):
+        # Original images - transposing to (height, width, channels)
+        original_image = img[j].detach().cpu().numpy().transpose(1, 2, 0)
+        axes[0][j].imshow(original_image)
+        axes[0][j].axis('off')
+
+    for j in range(5):
+        # Reconstructed images - transposing to (height, width, channels)
+        reconstructed_image = recons[j].detach().cpu().numpy().transpose(1, 2, 0)
+        axes[1][j].imshow(reconstructed_image)
+        axes[1][j].axis('off')
+
+    plt.tight_layout(pad=0.)
+    plt.show()
