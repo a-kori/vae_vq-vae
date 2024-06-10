@@ -24,7 +24,6 @@ def visualize_dataset(dataset, name):
 
 transform = transforms.Compose([
     transforms.ToTensor(),
-    transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2),
     transforms.Normalize((0.4, 0.4, 0.4), (0.4, 0.4, 0.4)),
 ])
 
