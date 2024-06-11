@@ -14,6 +14,13 @@
 - debugging
 - fixed sampling function error
 
+08.06.2024 - Ivan:
+- implemented evaluate function
+- implemented sampling function
+- first logging implementation
+- first sampling plot implementation
+- time measurement and output
+
 09.06.2024 - Ramneek:
 - added batch normalization and dropout to networks.py
 - adjusted parameters, changed scheduler
@@ -41,3 +48,11 @@
 11.06.2024 - Anastasiia:
 - repo cleanup
 - testing
+
+11.06.2024 - Ivan:
+- nice-looking console printing
+- frequent (every 150th batch) console printing
+- 2D test loss and train loss plot
+- 2D learning rate plot
+- (Group-specific) 2D plot for each loss component
+- return modification in loss_function
