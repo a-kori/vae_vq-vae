@@ -24,7 +24,7 @@ def sample(model, device, latent_dim, num_samples, grid_size=10):
     np_img = grid.numpy()
     plt.figure(figsize=(10, 10))
     plt.imshow(np.transpose(np_img, (1, 2, 0)))
-    plt.title(f'Sampled images after training:')
+    plt.title(f'Sampled images after training')
     plt.axis('off')
     plt.show()
 
