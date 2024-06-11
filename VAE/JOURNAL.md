@@ -27,6 +27,8 @@
 
 08.06.2024 - Rodi
 - implemented the neural network (first and second) version
+
+  
 10.06.2024
 - implemented test_notebook, as test environement to optimize our VAE Model
 - added more convelutional layers to the network
