@@ -1,25 +1,25 @@
 import matplotlib.pyplot as plt
 import torch
 
-def plot_loss_lr(num_epochs, epoch_markers, train_losses, test_losses, learning_rates):
+def plot_loss_lr(num_epochs, train_losses, test_losses, learning_rates):
     '''
     Plots the Train Loss, Test Loss and Learning Rate development.
     '''
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 4))
     fig.suptitle('Train Loss & Test Loss & LR')
+    epochs = range(1, num_epochs + 1)
 
     # Plot Train & Test losses
     ax1.set_title('Train & Test losses')
     ax1.set_xlabel('Epoch')
-    ax1.plot(train_losses, label='Train Loss', color='C0')
-    ax1.scatter(epoch_markers, [train_losses[i] for i in epoch_markers], color='C0')
-    ax1.plot(epoch_markers, test_losses, label='Test Loss', color='C1')
+    ax1.plot(epochs, train_losses, label='Train Loss', color='C0')
+    ax1.plot(epochs, test_losses, label='Test Loss', color='C1')
     ax1.legend()
 
     # Plot Learning Rate over time
     ax2.set_title('Learning Rate over time')
     ax2.set_xlabel('Epoch')
-    ax2.plot(range(1, num_epochs + 1), learning_rates, label='Learning Rate', color='C2')
+    ax2.plot(epochs, learning_rates, label='Learning Rate', color='C2')
 
     fig.tight_layout()
     plt.show()

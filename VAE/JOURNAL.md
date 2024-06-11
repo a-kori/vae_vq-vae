@@ -7,19 +7,19 @@
 - implemented the neural network (first and second) version
 - debugging
 
-08.06.2024 - Anastasiia: 
-- implemented VAE training
-- modified dataset visualization
-- added training optimizations: optimizer selection, LR schedule, AMP scaler
-- debugging
-- fixed sampling function error
-
 08.06.2024 - Ivan:
 - implemented evaluate function
 - implemented sampling function
 - first logging implementation
 - first sampling plot implementation
 - time measurement and output
+
+08.06.2024 - Anastasiia: 
+- implemented VAE training
+- modified dataset visualization
+- added training optimizations: optimizer selection, LR schedule, AMP scaler
+- debugging
+- fixed sampling function error
 
 09.06.2024 - Ramneek:
 - added batch normalization and dropout to networks.py
@@ -39,15 +39,11 @@
 10.06.2024 - Anastasiia:
 - adjusted code structure and reconstruction plotting to changes in VAE model
 - further training improvements & bug fixes
-  
+
 11.06.2024 - Ramneek:
 - adjusted parameters and loss as requested
 - removed dropout
 - added bias to linear layer
-
-11.06.2024 - Anastasiia:
-- repo cleanup
-- testing
 
 11.06.2024 - Ivan:
 - nice-looking console printing
@@ -56,3 +52,8 @@
 - 2D learning rate plot
 - (Group-specific) 2D plot for each loss component
 - return modification in loss_function
+
+11.06.2024 - Anastasiia:
+- repo cleanup
+- testing
+- fixed plotting errors
