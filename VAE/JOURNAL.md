@@ -2,8 +2,8 @@
 ...
 
 08.06.2024 - Anastasiia: 
-- implemented VAE training,
-- modified dataset visualization,
+- implemented VAE training
+- modified dataset visualization
 - added training optimizations: optimizer selection, LR schedule, AMP scaler
 - debugging
 - fixed sampling function error
