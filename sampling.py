@@ -1,8 +1,45 @@
-import torch
+import torch, numpy as np
 import matplotlib.pyplot as plt
-import numpy as np
+from torchvision.utils import make_grid
 
-def sample(model, test_loader, device, num_samples=5):
+def sample(model, device, latent_dim, num_samples, grid_size=10):
+    """
+    Generates images from the VAE model and shows them in a grid.
+
+    Parameters:
+    - model : The VAE model to generate images from.
+    - device : The device to run the model on.
+    - latent_dim: Dimensionality of latent space.
+    - num_samples : Number of images to generate, must be below 100.
+    - grid_size : Dimensions of the grid to arrange the images.
+    - save_path : Path to save the generated image grid.
+    """
+
+    model.eval()
+    with torch.no_grad():
+        z = torch.randn(num_samples, latent_dim).to(device)
+        generated_images = model.decoder(z).cpu()
+    
+    grid = make_grid(generated_images, nrow=grid_size, normalize=True)
+    np_img = grid.numpy()
+    plt.figure(figsize=(10, 10))
+    plt.imshow(np.transpose(np_img, (1, 2, 0)))
+    plt.title(f'Sampled images after training:')
+    plt.axis('off')
+    plt.show()
+
+
+def plot_reconstruction(model, test_loader, device, num_samples=5):
+    """
+    Plots the reconstructions of images from the testing dataset 
+    and shows them next to the original ones.
+
+    Parameters:
+    - model : The VAE model to generate images from.
+    - test_loader : Loader for the testing dataset.
+    - device : The device to run the model on.
+    - num_samples : Number of images to generate, must be below 100.
+    """
     # Set the model to evaluation mode
     model.eval()
     
