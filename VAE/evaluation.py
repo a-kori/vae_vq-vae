@@ -25,7 +25,7 @@ def evaluate(model, test_loader, loss_fun, device):
             # Move images to the appropriate device
             images = images.to(device)
             recon_batch, mu, logvar = model(images)
-            loss = loss_fun(recon_batch, images, mu, logvar)
+            loss, mse, kld = loss_fun(recon_batch, images, mu, logvar)
             total_loss += loss.item()
 
     return total_loss / len(test_loader)
