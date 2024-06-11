@@ -24,3 +24,11 @@
   
 10.06.2024 - Ramneek
 -remove color jitter, change normalization in datasets.py
+
+08.06.2024 - Rodi
+- implemented the neural network (first and second) version
+10.06.2024
+- implemented test_notebook, as test environement to optimize our VAE Model
+- added more convelutional layers to the network
+- added dropout(p) to avoid overfitting
+- added transform.resize() to use the same nn for CIFAR10 and MNIST
