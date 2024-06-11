@@ -20,10 +20,17 @@
   
 09.06.2024 - Ramneek
 - added batch normalization and dropout to networks.py
-- adjusted parameters, change scheduler , and added gradient clipping to training
+- adjusted parameters, change scheduler
+   added gradient clipping to training
   
 10.06.2024 - Ramneek
--remove color jitter, change normalization in datasets.py
+- remove color jitter
+- change normalization in datasets.py
+  
+11.06.2024 - Ramneek
+- adjusted Parameters and loss as requested
+- removed dropout
+- added bias to linear layer
 
 08.06.2024 - Rodi
 - implemented the neural network (first and second) version
