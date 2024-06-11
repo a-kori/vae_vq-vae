@@ -15,8 +15,7 @@ class Encoder(nn.Module):
         self.bn4 = nn.BatchNorm2d(256)
         self.conv5 = nn.Conv2d(256, 512, kernel_size=4, stride=2, padding=1, bias=False)
         self.bn5 = nn.BatchNorm2d(512)
-        self.fc1 = nn.Linear(512 * 1 * 1, 1024, bias=False)
-        self.dropout = nn.Dropout(0.4)
+        self.fc1 = nn.Linear(512 * 1 * 1, 1024)
         self.fc2_mean = nn.Linear(1024, latent_dim)
         self.fc2_logvar = nn.Linear(1024, latent_dim)
 
@@ -28,7 +27,6 @@ class Encoder(nn.Module):
         x = F.relu(self.bn5(self.conv5(x)))
         x = x.view(x.size(0), -1)
         h = F.relu(self.fc1(x))
-        h = self.dropout(h)
         mean = self.fc2_mean(h)
         logvar = self.fc2_logvar(h)
         return mean, logvar
