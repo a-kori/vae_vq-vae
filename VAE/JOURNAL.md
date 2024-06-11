@@ -14,3 +14,11 @@
 
 11.06.2024 - Anastasiia:
 - repo cleanup
+
+08.06.2024 - Ramneek 
+- implemented datasets.py
+09.06.2024 - Ramneek
+- added batch normalization and dropout to networks.py
+- adjusted parameters, change scheduler , and added gradient clipping to training
+10.06.2024 - Ramneek
+-remove color jitter, change normalization in datasets.py
