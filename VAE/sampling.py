@@ -14,12 +14,16 @@ def sample(model, device, latent_dim, num_samples, grid_size=10):
     - grid_size : Dimensions of the grid to arrange the images.
     - save_path : Path to save the generated image grid.
     """
-
+    # Set the model to evaluation mode
     model.eval()
+ 
     with torch.no_grad():
+        # Generate random latent vectors
         z = torch.randn(num_samples, latent_dim).to(device)
+        # Pass vectors through the decoder to generate images
         generated_images = model.decoder(z).cpu()
     
+    # Plot sampled images
     grid = make_grid(generated_images, nrow=grid_size, normalize=True)
     np_img = grid.numpy()
     plt.figure(figsize=(10, 10))

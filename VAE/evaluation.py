@@ -21,11 +21,16 @@ def evaluate(model, test_loader, loss_fun, device):
         # Switch to evaluation mode.
         model.eval()
         # Iterate over the entire test dataset.
-        for images, _ in test_loader:
-            # Move images to the appropriate device
-            images = images.to(device)
-            recon_batch, mu, logvar = model(images)
-            loss, mse, kld = loss_fun(recon_batch, images, mu, logvar)
+        for image, _ in test_loader:
+            # Move image to the appropriate device
+            image = image.to(device)
+
+            # recon_batch - reconstructed output from the VAE
+            # mu - mean of the latent space distribution
+            # logvar - logarithm of the variance of the latent space distribution.
+            recon_batch, mu, logvar = model(image)
+            loss, _, _ = loss_fun(recon_batch, image, mu, logvar)
+
             total_loss += loss.item()
 
     return total_loss / len(test_loader)
