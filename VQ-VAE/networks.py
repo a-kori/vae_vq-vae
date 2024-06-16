@@ -27,9 +27,7 @@ class Encoder(nn.Module):
 class Decoder(nn.Module):
     def __init__(self, embedding_dim):
         super(Decoder, self).__init__()
-        self.fc1 = nn.Linear(embedding_dim, 512, bias=False)
-        self.fc2 = nn.Linear(512, 512 * 1 * 1, bias=False)
-        self.deconv1 = nn.ConvTranspose2d(512, 256, kernel_size=4, stride=2, padding=1, bias=False)
+        self.deconv1 = nn.ConvTranspose2d(embedding_dim, 256, kernel_size=4, stride=2, padding=1, bias=False)
         self.bn1 = nn.BatchNorm2d(256)
         self.deconv2 = nn.ConvTranspose2d(256, 128, kernel_size=4, stride=2, padding=1, bias=False)
         self.bn2 = nn.BatchNorm2d(128)
@@ -38,11 +36,8 @@ class Decoder(nn.Module):
         self.deconv4 = nn.ConvTranspose2d(64, 32, kernel_size=4, stride=2, padding=1, bias=False)
         self.bn4 = nn.BatchNorm2d(32)
         self.deconv5 = nn.ConvTranspose2d(32, 3, kernel_size=4, stride=2, padding=1)  # Keep bias here
-
+        
     def forward(self, z):
-        z = F.relu(self.fc1(z))
-        z = F.relu(self.fc2(z))
-        z = z.view(z.size(0), 512, 1, 1)  # Reshape tensor
         z = F.relu(self.bn1(self.deconv1(z)))
         z = F.relu(self.bn2(self.deconv2(z)))
         z = F.relu(self.bn3(self.deconv3(z)))
@@ -72,7 +67,7 @@ class VectorQuantizer(nn.Module):
         
         z_q = z + (z_q - z).detach()
         return loss, z_q, encoding_indices
-
+    
 class VQVAE(nn.Module):
     def __init__(self, input_channels, num_embeddings, embedding_dim, commitment_cost):
         super(VQVAE, self).__init__()
@@ -85,8 +80,4 @@ class VQVAE(nn.Module):
         vq_loss, z_q, _ = self.vq(z_e)
         x_recon = self.decoder(z_q)
         return x_recon, vq_loss
-
-def loss_function(x, x_recon, vq_loss):
-    recon_loss = F.mse_loss(x_recon, x)
-    loss = recon_loss + vq_loss
-    return loss
+    
