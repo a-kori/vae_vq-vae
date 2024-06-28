@@ -10,19 +10,14 @@ class ResidualBlock(nn.Module):
         super(ResidualBlock, self).__init__()
         self.conv1 = nn.Conv2d(in_channels, out_channels, kernel_size=3, padding=1)
         self.conv2 = nn.Conv2d(in_channels, out_channels, kernel_size=1)
-        self.bn = nn.BatchNorm2d(out_channels)
+        self.bn1 = nn.BatchNorm2d(out_channels)
         self.relu = nn.ReLU()
 
     def forward(self, x):
         identity = x
-        out = self.conv1(x)
-        out = self.bn(out)
-        out = self.relu(out)
-        out = self.conv2(out)
-        out = self.bn(out)
-        out = self.relu(out)
+        out = self.relu(self.bn1(self.conv1(x)))
+        out = self.bn1(self.conv2(out))
         out += identity
-        out = self.relu(out)
         return out    
 
 class Encoder(nn.Module):
