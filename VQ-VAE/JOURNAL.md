@@ -11,3 +11,13 @@
 - repo cleanup
 - pair programming & debugging in `interpolation.py` with the team
 - fixed final interpolation error (with AVI format)
+
+
+
+21-28.06.2024 - Ramneek
+-implemented, iterated, tested,training own version of VQ-VAE model 'Ramneek_VQ-VAE
+-changes to train.ipnyb to fit model
+29.06.2024 - Ramneek
+-changes to model architecture, reduced cnn size
+-testing and debugging
+-pair programming 'interpolation.py'
