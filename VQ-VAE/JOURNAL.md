@@ -10,4 +10,4 @@
 - code review for chosen VQ-VAE model
 - repo cleanup
 - pair programming & debugging in `interpolation.py` with the team
-- fixed final interpolation error
+- fixed final interpolation error (with AVI format)
