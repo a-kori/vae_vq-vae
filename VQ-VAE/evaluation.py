@@ -1,7 +1,7 @@
 import torch
 
 
-def evaluate(model, test_loader, device):
+def evaluate(model, test_loader, loss_fun, device):
     """
     Evaluates the models using the testing dataset and calculates its mean loss.
 
@@ -22,13 +22,10 @@ def evaluate(model, test_loader, device):
         model.eval()
         # Iterate over the entire test dataset.
         for image, _ in test_loader:
-            # Move image to the appropriate device
             image = image.to(device)
 
-            # recon_batch - reconstructed output from the VAE
-            # mu - mean of the latent space distribution
-            # logvar - logarithm of the variance of the latent space distribution.
-            x_reconst, loss,embedding_loss,commitment_loss = model(image)
+            recon_batch, vq_loss, _, _ = model(image)
+            loss, _, _ = loss_fun(recon_batch, image, vq_loss)
 
             total_loss += loss.item()
 

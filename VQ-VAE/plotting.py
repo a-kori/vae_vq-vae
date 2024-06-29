@@ -46,11 +46,11 @@ def plot_loss_components(reconstruction_losses, kl_losses):
     ax1.set_ylabel('Reconstruction Loss')
     ax1.plot(range(len(reconstruction_losses)), reconstruction_losses, label='Reconstruction Loss', color='C0')
 
-    # Plot KL divergence loss
-    ax2.set_title('KL Divergence Loss')
+    # Plot VQ Loss
+    ax2.set_title('VQ Loss')
     ax2.set_xlabel('Batch')
-    ax2.set_ylabel('KL Divergence Loss')
-    ax2.plot(range(len(kl_losses)), kl_losses, label='KL Divergence Loss', color='C1')
+    ax2.set_ylabel('VQ Loss')
+    ax2.plot(range(len(kl_losses)), kl_losses, label='VQ Loss', color='C1')
 
     fig.tight_layout()
     plt.show()

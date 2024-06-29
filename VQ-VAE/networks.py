@@ -2,8 +2,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from datasets import create_datasets
-
 #Observation: Higher model complexity causes overfitting    
 class ResidualBlock(nn.Module):
     def __init__(self, in_channels, out_channels):
@@ -80,9 +78,9 @@ class VectorQuantizer(nn.Module):
         closest_embedding = self.embedding(encoding_indices).view(encoderout.shape)
         
         # Loss calculation
-        #codebook loss adapts embedding vectors to encoder output
+        # codebook loss adapts embedding vectors to encoder output
         codebook_loss = F.mse_loss(closest_embedding, encoderout.detach())
-        #commitment loss adapts encoder output to embeddings
+        # commitment loss adapts encoder output to embeddings
         commitment_loss = F.mse_loss(encoderout, closest_embedding.detach())
         loss = codebook_loss + self.beta * commitment_loss
 
@@ -105,33 +103,3 @@ class VQVAE(nn.Module):
         z_quant, loss,embedding_loss,commitment_loss = self.vectorquantizer.forward(z)
         x_reconstructed = self.decoder(z_quant)
         return x_reconstructed, loss,embedding_loss,commitment_loss
-#debugging purposes
-'''
-def main():
-    # Configuration
-    input_channels = 3
-    emb_dim = 64
-    n_embed = 512
-    commitment_cost = 0.25
-    batch_size = 128  # Just for demonstration, usually larger for training
-    image_size = 32  # CIFAR-10 image size
-    
-    # Create the VQ-VAE model
-    model = VQVAE(input_channels, emb_dim, n_embed, commitment_cost).to('cuda' if torch.cuda.is_available() else 'cpu')
-    dataset_name = 'CIFAR10'
-    train_loader, test_loader = create_datasets(dataset_name, batch_size)
-
-    images, labels = next(iter(train_loader))  # Fetch the next batch
-    
-    
-    # Move to GPU if available
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    images = images.to(device)
-    model = model.to(device)
-    
-    reconstructed_images, loss, embedding_loss, commitment_loss = model(images)
-    
-if __name__ == "__main__":
-    main()
-    
-    '''
