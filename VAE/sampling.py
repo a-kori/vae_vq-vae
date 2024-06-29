@@ -39,7 +39,7 @@ def plot_reconstruction(model, test_loader, device, num_samples=5):
     and shows them next to the original ones.
 
     Parameters:
-    - model : The VAE model to generate images from.
+    - model : The VAE/VQ-VAE model to generate images from.
     - test_loader : Loader for the testing dataset.
     - device : The device to run the model on.
     - num_samples : Number of images to generate, must be below 100.
@@ -55,9 +55,10 @@ def plot_reconstruction(model, test_loader, device, num_samples=5):
     indices = np.random.choice(len(data), num_samples, replace=False)
     sampled_data = data[indices]
 
-    # Pass the data through the VAE
+    # Pass the data through the model
     with torch.no_grad():
-        recon_batch, _, _ = model(sampled_data)
+        res = model(sampled_data)
+        recon_batch = res[0]
     
     # Plot the original and reconstructed images
     _, axes = plt.subplots(nrows=2, ncols=num_samples, figsize=(num_samples * 2, 4))
