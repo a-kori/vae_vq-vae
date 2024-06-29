@@ -1,8 +1,8 @@
-import torch
 import numpy as np
-import moviepy.editor as mpy
+import torch
+import cv2
 
-def interpolate(z1, z2, model, steps, save_path='output/interpolation.mp4'):
+def interpolate(z1, z2, model, steps, save_path='output/interpolation.avi', fps=24):
     """
     Generates a video showing the interpolation between two random latent vectors z1 and z2.
 
@@ -12,6 +12,7 @@ def interpolate(z1, z2, model, steps, save_path='output/interpolation.mp4'):
     - model: Trained VQ-VAE model.
     - steps: Number of interpolation steps (number of generated images).
     - save_path: Path of the output video file.
+    - fps: Frames per second for the video.
     """
     # Ensure model is in evaluation mode
     model.eval()
@@ -33,10 +34,17 @@ def interpolate(z1, z2, model, steps, save_path='output/interpolation.mp4'):
             img_np = (reconstructed_image.cpu().squeeze().permute(1, 2, 0).numpy() * 255).astype(np.uint8)
             images.append(img_np)
 
-    # Create a video clip from the list of numpy arrays
-    clip = mpy.ImageSequenceClip(images, fps=1)  # fps=1 means each image will be shown for 1 second
+    # Get the dimensions of the images
+    height, width, _ = images[0].shape
 
-    # Save the resulting video
-    clip.write_videofile(save_path, codec="libx264")
+    # Define the codec and create VideoWriter object
+    fourcc = cv2.VideoWriter_fourcc(*'XVID')
+    video = cv2.VideoWriter(save_path, fourcc, fps, (width, height))
 
+    for img in images:
+        # Convert RGB (default in most libraries) to BGR (default in OpenCV)
+        img_bgr = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+        video.write(img_bgr)
+
+    video.release()
     print(f"Interpolation video saved as {save_path}.")
