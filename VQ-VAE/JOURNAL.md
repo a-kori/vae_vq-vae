@@ -6,7 +6,7 @@
 
 21-28.06.2024 - Ramneek:
 - implemented, iterated, tested, training own version of VQ-VAE model `Ramneek_VQ-VAE`
-- changes to train.ipnyb to fit model
+- changes to `train.ipnyb` to fit model
 
 28.06.2024 - Anastasiia:
 - implemented own version of the VQ-VAE model on branch `anastasiia/vq-vae`, adjusted training
