@@ -22,3 +22,11 @@
 - changes to model architecture, reduced cnn size
 - testing and debugging
 - pair programming 'interpolation.py'
+
+18/26.06.2024 - Rodi:
+- implemented own version of VQ-VAE
+- test & debug
+
+29.06.2024 - Rodi:
+- helped to implement interpolation.py in a group call
+- tested the chosen model on CelebA-Dataset
