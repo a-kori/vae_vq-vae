@@ -58,6 +58,7 @@ def create_datasets(dataset_name, batch_size):
         ])
         train_dataset = datasets.CelebA(root="data", split='train', download=True, transform=transform)
         test_dataset = datasets.CelebA(root="data", split='test', download=True, transform=transform)
+        visualize_dataset(train_dataset, 'CelebA training')
 
     else:
         return None, None
