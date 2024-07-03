@@ -50,6 +50,15 @@ def create_datasets(dataset_name, batch_size):
         train_dataset = datasets.CIFAR10(root="data", train=True, download=True, transform=transform)
         test_dataset = datasets.CIFAR10(root="data", train=False, download=True, transform=transform)
         visualize_dataset(train_dataset, 'CIFAR10 training')
+
+    elif str.upper(dataset_name) == 'CELEBA':
+        transform = transforms.Compose([
+            transforms.ToTensor(),
+            transforms.Resize((64, 64)),
+        ])
+        train_dataset = datasets.CelebA(root="data", split='train', download=True, transform=transform)
+        test_dataset = datasets.CelebA(root="data", split='test', download=True, transform=transform)
+
     else:
         return None, None
     
