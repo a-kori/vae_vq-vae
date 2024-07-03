@@ -114,7 +114,7 @@ class VQVAE(nn.Module):
 
     def sample(self, num_samples):
         # Randomly sample indices from the embedding space
-        indices = torch.randint(0, self.vectorquantizer.n_embed, (num_samples, 1))
+        indices = torch.randint(0, self.vectorquantizer.n_embed, (num_samples, 1)).to(self.vectorquantizer.device)
         embeddings = self.vectorquantizer.get_embedding(indices).view(num_samples, self.vectorquantizer.emb_dim, 1, 1)
         embeddings = embeddings.to(self.vectorquantizer.device)
 
