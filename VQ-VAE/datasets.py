@@ -7,7 +7,11 @@ def visualize_dataset(dataset, name):
     '''
     Visualizes the given dataset by showing sample images in a grid.
     '''
-    class_names = dataset.classes
+    try:
+        class_names = dataset.classes
+    except:
+        class_names = None
+    
     images, labels = zip(*tuple(itertools.islice(iter(dataset), 16)))
     images = torch.stack(images)
     grid = utils.make_grid(images, nrow=4)
@@ -19,12 +23,14 @@ def visualize_dataset(dataset, name):
     plt.axis('off')
     img_height = np_grid.shape[0] // 4
     img_width = np_grid.shape[1] // 4
-    for i, label in enumerate(labels):
-        row = i // 4
-        col = i % 4
-        x_pos = (col * img_width) + (img_width / 2)
-        y_pos = (row + 1) * img_height - (img_height / 8)
-        plt.text(x_pos, y_pos, class_names[label], ha='center', va='top', fontsize=10, color='white')
+
+    if class_names is not None:
+        for i, label in enumerate(labels):
+            row = i // 4
+            col = i % 4
+            x_pos = (col * img_width) + (img_width / 2)
+            y_pos = (row + 1) * img_height - (img_height / 8)
+            plt.text(x_pos, y_pos, class_names[label], ha='center', va='top', fontsize=10, color='white')
 
 
 def create_datasets(dataset_name, batch_size):
