@@ -1,5 +1,5 @@
 # ✨ VAE & VQ-VAE
-This repository contains the implementation code for two deep learning models: VAE (Variational Autoencoder) and VQ-VAE (Vector Quantization Variational Autoencoder), as well as two project presentations. `VAE & VQ-VAE Presentation.pdf` explains the theory behind the models, and `Final Presentation.pdf` describes the implementation process and the results of our work. 
+This repository contains the implementation code for two deep learning models: VAE (Variational Autoencoder) and VQ-VAE (Vector Quantization Variational Autoencoder), as well as two project presentations. [VAE & VQ-VAE Presentation](https://docs.google.com/presentation/d/1fI02-Wt4sg5LyUvZ6UsPsrUpli0r2j5q_zDvQM30nbY/edit?usp=sharing) explains the theory behind the models, and the [Final Presentation](https://docs.google.com/presentation/d/1JfyOiWrc3Ve9UE3ykqmekwoqZ3dvaH12NE32zj0jLNU/edit?usp=sharing) describes the implementation process and the results of our work. 
 
 The project was implemented in the context of the Undergraduate Project "Machine Learning" at TU Dortmund and supervised by Marc Höftmann and Sebastian Konietzny. It is based on the papers:
 - “Auto-Encoding Variational Bayes” by Diederik P. Kingma and MaxWelling,
